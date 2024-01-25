@@ -5,23 +5,23 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Health))]
 public class SmoothHealthBar : MonoBehaviour
 {
-    [SerializeField] private Slider _healthBar;
-    [SerializeField] private Health _health;
+    [SerializeField] private Slider _wellnessBar;
+    [SerializeField] private Health _wellness;
     [SerializeField] private float _speed;
 
     private Coroutine _coroutine;
 
     private void OnEnable()
     {
-        _health.Changed += OnHealthChanged;
+        _wellness.Changed += OnWellnessChanged;
     }
 
     private void OnDisable()
     {
-        _health.Changed -= OnHealthChanged;
+        _wellness.Changed -= OnWellnessChanged;
     }
 
-    private void OnHealthChanged(float health)
+    private void OnWellnessChanged(float health)
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
@@ -35,9 +35,9 @@ public class SmoothHealthBar : MonoBehaviour
 
         while (isWork)
         {
-            _healthBar.value = Mathf.MoveTowards(_healthBar.value, targetValue, Time.deltaTime * _speed);
+            _wellnessBar.value = Mathf.MoveTowards(_wellnessBar.value, targetValue, Time.deltaTime * _speed);
 
-            if (_healthBar.value == targetValue)
+            if (_wellnessBar.value == targetValue)
             {
                 isWork = false;
 
