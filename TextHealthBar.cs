@@ -1,45 +1,24 @@
-using System.Collections;
+using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class AttackState : State
+[RequireComponent(typeof(Health))]
+public class TextHealthBar : MonoBehaviour
 {
-    [SerializeField] private int _damage;
+    [SerializeField] private TMP_Text _healthBar;
+    [SerializeField] private Health _health;
 
-    private Animator _animator;
-    private Coroutine _coroutine;
-
-    private void Start()
+    private void OnEnable()
     {
-        _animator = GetComponent<Animator>();
-
-        if(_coroutine != null)
-            StopCoroutine(_coroutine);
-
-        _coroutine = StartCoroutine(Play());
+        _health.Modified += OnHealthChanged;
     }
 
-    private void Assault(Player target)
+    private void OnDisable()
     {
-        _animator.Play("Assault");
-
-        target.ApplyDamage(_damage);
+        _health.Modified -= OnHealthChanged;
     }
 
-    private IEnumerator Play()
+    private void OnHealthChanged(int health)
     {
-        bool isWork = true;
-        
-        while (isWork)
-        {
-            Assault(Target);
-
-            if(Target == null)
-                isWork = false;
-
-            yield return null;
-        }
-
-        StopCoroutine(_coroutine);
+        _healthBar.text = health.ToString() + "/100";
     }
 }
