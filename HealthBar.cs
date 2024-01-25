@@ -1,45 +1,24 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-[RequireComponent(typeof(Animator))]
-public class AttackState : State
+[RequireComponent(typeof(Health))]
+public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private int _damage;
+    [SerializeField] private Slider _healthBar;
+    [SerializeField] private Health _health;
 
-    private Animator _animator;
-    private Coroutine _coroutine;
-
-    private void Start()
+    private void OnEnable()
     {
-        _animator = GetComponent<Animator>();
-
-        if(_coroutine != null)
-            StopCoroutine(_coroutine);
-
-        _coroutine = StartCoroutine(Play());
+        _health.Changed += OnHealthChanged;
     }
 
-    private void Assault(Player target)
+    private void OnDisable()
     {
-        _animator.Play("Assault");
-
-        target.ApplyDamage(_damage);
+        _health.Changed -= OnHealthChanged;
     }
 
-    private IEnumerator Play()
+    private void OnHealthChanged(float health)
     {
-        bool isWork = true;
-        
-        while (isWork)
-        {
-            Assault(Target);
-
-            if(Target == null)
-                isWork = false;
-
-            yield return null;
-        }
-
-        StopCoroutine(_coroutine);
+        _healthBar.value = health;
     }
 }
