@@ -1,45 +1,54 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
-[RequireComponent(typeof(Animator))]
-public class AttackState : State
+public class Health : MonoBehaviour
 {
-    [SerializeField] private int _damage;
+    [SerializeField] private Slider _healthBar;
+    [SerializeField] private float _wellness;
+    [SerializeField] private int _wellnessTextBar;
 
-    private Animator _animator;
-    private Coroutine _coroutine;
+    private int _amountOfWellness = 100;
 
-    private void Start()
+    public event UnityAction<float> Changed;
+    public event UnityAction<int> Modified; 
+
+    public void Heal()
     {
-        _animator = GetComponent<Animator>();
+        int maximumHealth = 100;
 
-        if(_coroutine != null)
-            StopCoroutine(_coroutine);
+        float targetValue = ChangeWellness(_wellness);
 
-        _coroutine = StartCoroutine(Play());
-    }
+        Changed?.Invoke(targetValue);
 
-    private void Assault(Player target)
-    {
-        _animator.Play("Assault");
-
-        target.ApplyDamage(_damage);
-    }
-
-    private IEnumerator Play()
-    {
-        bool isWork = true;
-        
-        while (isWork)
+        if (_amountOfWellness < maximumHealth)
         {
-            Assault(Target);
+            int targetIndicator = _amountOfWellness += _wellnessTextBar;
 
-            if(Target == null)
-                isWork = false;
-
-            yield return null;
+            Modified?.Invoke(targetIndicator);
         }
+    }
 
-        StopCoroutine(_coroutine);
+    public void Damage()
+    {
+        int minimumHealth = 0;
+
+        float targetValue = ChangeWellness(-_wellness);
+
+        Changed?.Invoke(targetValue);
+
+        if (_amountOfWellness > minimumHealth)
+        {
+            int targetIndicator = _amountOfWellness -= _wellnessTextBar;
+
+            Modified?.Invoke(targetIndicator);
+        }
+    }
+
+    private float ChangeWellness(float health)
+    {
+        float targetValue = _healthBar.value + health;
+
+        return targetValue;
     }
 }
