@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Health))]
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Slider _wellnessBar;
+    [SerializeField] private Slider _wellnessIndicator;
     [SerializeField] private Health _wellness;
 
     private void OnEnable()
@@ -19,6 +19,6 @@ public class HealthBar : MonoBehaviour
 
     private void OnWellnessChanged(float health)
     {
-        _wellnessBar.value = health;
+        _wellnessIndicator.value = health;
     }
 }
