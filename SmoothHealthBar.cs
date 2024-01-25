@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Health))]
 public class SmoothHealthBar : MonoBehaviour
 {
-    [SerializeField] private Slider _wellnessBar;
+    [SerializeField] private Slider _wellnessIndicator;
     [SerializeField] private Health _wellness;
     [SerializeField] private float _speed;
 
@@ -35,9 +35,9 @@ public class SmoothHealthBar : MonoBehaviour
 
         while (isWork)
         {
-            _wellnessBar.value = Mathf.MoveTowards(_wellnessBar.value, targetValue, Time.deltaTime * _speed);
+            _wellnessIndicator.value = Mathf.MoveTowards(_wellnessIndicator.value, targetValue, Time.deltaTime * _speed);
 
-            if (_wellnessBar.value == targetValue)
+            if (_wellnessIndicator.value == targetValue)
             {
                 isWork = false;
 
