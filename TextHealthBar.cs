@@ -4,21 +4,21 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class TextHealthBar : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _healthBar;
-    [SerializeField] private Health _health;
+    [SerializeField] private TMP_Text _wellnessIndicator;
+    [SerializeField] private Health _wellness;
 
     private void OnEnable()
     {
-        _health.Modified += OnHealthChanged;
+        _wellness.Modified += OnWellnessChanged;
     }
 
     private void OnDisable()
     {
-        _health.Modified -= OnHealthChanged;
+        _wellness.Modified -= OnWellnessChanged;
     }
 
-    private void OnHealthChanged(int health)
+    private void OnWellnessChanged(int health)
     {
-        _healthBar.text = health.ToString() + "/100";
+        _wellnessIndicator.text = health.ToString() + "/100";
     }
 }
