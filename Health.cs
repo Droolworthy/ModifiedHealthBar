@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private Slider _healthBar;
+    [SerializeField] private Slider _wellnessIndicator;
     [SerializeField] private float _wellness;
     [SerializeField] private int _wellnessTextBar;
 
@@ -45,7 +45,7 @@ public class Health : MonoBehaviour
 
     private float ChangeWellness(float health)
     {
-        float targetValue = _healthBar.value + health;
+        float targetValue = _wellnessIndicator.value + health;
 
         return targetValue;
     }
