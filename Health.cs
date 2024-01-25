@@ -9,21 +9,21 @@ public class Health : MonoBehaviour
     [SerializeField] private int _wellnessTextBar;
 
     private int _amountOfWellness = 100;
+    private int _maximumWellness = 100;
+    private int _minimumWellness = 0;
 
     public event UnityAction<float> Changed;
     public event UnityAction<int> Modified; 
 
     public void Heal()
     {
-        int maximumHealth = 100;
-
         float targetValue = ChangeWellness(_wellness);
 
         Changed?.Invoke(targetValue);
 
-        if (_amountOfWellness < maximumHealth)
+        if (_amountOfWellness < _maximumWellness)
         {
-            int targetIndicator = _amountOfWellness += _wellnessTextBar;
+            int targetIndicator = ModifieWellness(_wellnessTextBar);
 
             Modified?.Invoke(targetIndicator);
         }
@@ -31,15 +31,13 @@ public class Health : MonoBehaviour
 
     public void Damage()
     {
-        int minimumHealth = 0;
-
         float targetValue = ChangeWellness(-_wellness);
 
         Changed?.Invoke(targetValue);
 
-        if (_amountOfWellness > minimumHealth)
+        if (_amountOfWellness > _minimumWellness)
         {
-            int targetIndicator = _amountOfWellness -= _wellnessTextBar;
+            int targetIndicator = ModifieWellness(-_wellnessTextBar);
 
             Modified?.Invoke(targetIndicator);
         }
@@ -48,6 +46,13 @@ public class Health : MonoBehaviour
     private float ChangeWellness(float health)
     {
         float targetValue = _healthBar.value + health;
+
+        return targetValue;
+    }
+
+    private int ModifieWellness(int health) 
+    { 
+        int targetValue = _amountOfWellness += health;
 
         return targetValue;
     }
