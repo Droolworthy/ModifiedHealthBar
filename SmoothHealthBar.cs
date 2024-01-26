@@ -1,27 +1,14 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(Health))]
-public class SmoothHealthBar : MonoBehaviour
+public class SmoothHealthBar : HealthBar
 {
-    [SerializeField] private Slider _wellnessIndicator;
-    [SerializeField] private Health _wellness;
     [SerializeField] private float _speed;
 
     private Coroutine _coroutine;
 
-    private void OnEnable()
-    {
-        _wellness.Changed += OnWellnessChanged;
-    }
-
-    private void OnDisable()
-    {
-        _wellness.Changed -= OnWellnessChanged;
-    }
-
-    private void OnWellnessChanged(float health)
+    public override void OnWellnessChanged(float health)
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
