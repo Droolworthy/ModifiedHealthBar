@@ -2,23 +2,12 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Health))]
-public class TextHealthBar : MonoBehaviour
+public class TextHealthBar : HealthBar
 {
-    [SerializeField] private TMP_Text _wellnessIndicator;
-    [SerializeField] private Health _wellness;
+    [SerializeField] private TMP_Text _indicator;
 
-    private void OnEnable()
+    public override void OnWellnessChanged(float health)
     {
-        _wellness.Changed += OnWellnessChanged;
-    }
-
-    private void OnDisable()
-    {
-        _wellness.Changed -= OnWellnessChanged;
-    }
-
-    private void OnWellnessChanged(float health)
-    {
-        _wellnessIndicator.text = health.ToString() + "/100";
+        _indicator.text = health.ToString() + "/100";
     }
 }
