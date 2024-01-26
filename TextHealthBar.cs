@@ -9,15 +9,15 @@ public class TextHealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        _wellness.Modified += OnWellnessChanged;
+        _wellness.Changed += OnWellnessChanged;
     }
 
     private void OnDisable()
     {
-        _wellness.Modified -= OnWellnessChanged;
+        _wellness.Changed -= OnWellnessChanged;
     }
 
-    private void OnWellnessChanged(int health)
+    private void OnWellnessChanged(float health)
     {
         _wellnessIndicator.text = health.ToString() + "/100";
     }
